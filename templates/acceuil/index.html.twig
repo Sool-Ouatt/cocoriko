@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cocoriko{% endblock %}
+
+{% block body %}
+<!-- slide -->
+<div class="carousel" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active animated fadeIn">
+            <img src="{{asset('img/background.jpg')}}" alt="">
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Example headline.</h1>
+                    <p>for the first slide of the carousel.Some representative placeholder content </p>
+                    <!-- <p><a class="btn btn-outline-success" href="#">Sign up today</a></p> -->
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item animated fadeIn">
+            <img src="{{ asset('img/background.jpg') }}" alt="">
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Another example headline.</h1>
+                    <p>S placeholder content forome representative the second slide of the carousel.</p>
+                    <!-- <p><a class="btn btn-outline-success" href="#">Learn more</a></p> -->
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item animated fadeIn">
+            <img src="{{ asset('img/background.jpg') }}" alt="">
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>One more for good measure.</h1>
+                    <p>Some representative placeholder content for the third slide of this carousel.</p>
+                    <!-- <p><a class="btn btn-outline-success" href="#">Browse gallery</a></p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end slide -->
+<main class="container-fluid">
+    <!-- products -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="owl-carousel">
+                {% for produit in lesProduits %}
+                    <div class="item">
+                        <div class="card border-color2">
+                            <img src="{{ asset('img/img.jpg') }}" class="card-img-top" width=100 alt="">
+                            <div class="card-body">
+                                <p class="p-card">
+                                    Prix: {{ produit.prixVente ~ " Fcfa" }}
+                                </p>
+                                <p class="p-card">
+                                    Poids: {{ produit.poids ~ " kg" }}
+                                </p>
+                                <p class="p-card">
+                                    Réduction: {{ produit.tauxReduction ~ "%" }}
+                                </p>
+                                <div align="right">
+                                    <a class="btn btn-outline-primary" href="{{ '/panier/ajout/' ~ produit.id}}">Acheter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- pesentation -->
+    <div class="p-2 bg-light rounded-3" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
+        <div class="container py-5 text-center card-glass text-white">
+            <h1 class="display-5 fw-bold animated bounceInRight ">Nos Services</h1>
+        </div>
+    </div>
+
+    <!-- Services -->
+    <div class="row text-center">
+        <div class="col-md-4 p-4">
+            <img src="{{asset('img/img.jpg') }}" class="img-fluid rounded-circle mb-1" width=100 alt="">
+            <h4>Service</h4>
+            <p>small description</p>
+        </div>
+        <div class="col-md-4 p-4">
+            <img src="{{ asset('img/img.jpg') }}" class="img-fluid rounded-circle mb-1" width=100 alt="">
+            <h4>Service</h4>
+            <p>small description</p>
+        </div>
+        <div class="col-md-4 p-4">
+            <img src="{{ asset('img/img.jpg') }}" class="img-fluid rounded-circle mb-1" width=100 alt="">
+            <h4>Service</h4>
+            <p>small description</p>
+        </div>
+    </div>
+{% endblock %}
+

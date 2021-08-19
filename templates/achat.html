@@ -1,0 +1,151 @@
+<!doctype html>
+  <html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="../public/fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/css/animate.css">
+
+    <link rel="stylesheet" href="../public/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../public/css/owl.theme.default.min.css">
+    <link href="../public/css/style.css" rel="stylesheet">
+
+    <title>Koka-Riko</title>
+  </head>
+  <body>
+    <!-- header begin -->
+    <div class="container-fluid bg-warning text-white pt-2">
+      <div class="row">
+        <div class="col" align="left">
+          <ul class="list-inline">
+            <li class="list-inline-item color2">
+              <i class="fas fa-phone-alt contact-icon"></i> +221 338001020
+            </li>
+            <li class="list-inline-item color2">
+              <i class="fas fa-paper-plane contact-icon"></i> contact@laboniang.com
+            </li>
+          </ul>
+        </div>
+        <div class="col" align="right">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <a href="" target="_blank"><i class="fab fa-facebook contact-icon"></i></a>
+            </li>
+            <li class="list-inline-item">
+              <a href="" target="_blank"><i class="fab fa-linkedin contact-icon"></i></a>
+            </li>
+            <li class="list-inline-item">
+              <a href="" target="_blank"><i class="fab fa-instagram contact-icon"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- bar de menu -->
+    <nav class="navbar sticky-top navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <img src="../public/img/logo.png" alt="" width="100" class="d-inline-block align-text-top">
+        <!-- <a class="navbar-brand" href="#"></a> -->
+        <button class="navbar-toggler btncol" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          Menu <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav" align="center">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link fw-bold" href="index.html">Accueil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-bold" href="boutique.html">Boutique</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-bold" href="#contacts">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Header end -->
+
+
+
+
+
+        <!-- Footer -->
+        <div class="row bg-warning border-bottom">
+          <div class="col-md-4 p-4">
+            <img src="../public/img/logo.png" alt="" width="200" class="d-inline-block align-text-top">
+            <p class="d-flex">Lorem ipsum dolor sit, amet, consectetur adipisicing elit. Illum quisquam provident consectetur iusto. Sit impedit recusandae nulla harum corrupti, consectetur eum ipsam minus fuga. Blanditiis unde tempora deserunt nemo, culpa?</p>
+          </div>
+          <div class="col-md-4 p-4">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore, esse dicta vel asperiores temporibus quia fugit adipisci alias quam odio, et ducimus assumenda, quibusdam doloribus voluptatem quo sunt voluptas tenetur.
+          </div>
+          <div class="col-md-4 p-4">
+            <h4 class="fw-bold">Contacts</h4>
+            <ul class="list-unstyled m-3" style="font-size: 18px;">
+              <li class="m-3"><i class="fas fa-map-marker-alt"></i> 79 Sandaga, Dakar</li>
+              <li class="m-3"><i class="fas fa-phone-alt"></i> +221 338889933</li>
+              <li class="m-3"><i class="fas fa-paper-plane"></i> contact@laboniang.com</li>
+              <li class="m-3"><i class="fas fa-globe"></i> www.laboniang.com</li>
+            </ul>
+            <hr>
+            <ul class="list-inline m-3">
+              <li class="list-inline-item">
+                <a href="" target="_blank"><i class="fab fa-facebook contact-icon-footer"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="" target="_blank"><i class="fab fa-linkedin contact-icon-footer"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="" target="_blank"><i class="fab fa-instagram contact-icon-footer"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </main>
+
+      <footer class="container-fluid p-2 bg-warning">
+        <p class="float-end"><a href="#"><i class="fas fa-chevron-circle-up text-white"></i></a></p>
+        <p style="font-size: 10px">&copy; <script>document.write(new Date().getFullYear());</script> Tabax Labs &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+
+    </body>
+    <script src="../public/fontawesome/js/all.min.js"></script>
+    <script src="../public/js/bootstrap.min.js"></script>
+    <script src="../public/vendors/jquery.min.js"></script>
+    <script src="../public/js/owl.carousel.min.js"></script>
+    <script src="../public/js/style.js"></script>
+    <script>
+      $(document).ready(function() {
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
+          items: 5,
+          loop: true,
+          margin: 10,
+          autoplay: true,
+          autoplayTimeout: 1000,
+          autoplayHoverPause: true,
+          responsiveClass:true,
+          responsive:{
+            0:{
+              items:2,
+              nav:false
+            },
+            600:{
+              items:3,
+              nav:false
+            },
+            1000:{
+              items:5,
+              nav:false,
+              loop:true
+            }
+          }
+        });
+      })
+    </script>
+    </html>

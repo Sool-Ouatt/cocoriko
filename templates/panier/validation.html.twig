@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+
+    <!-- single slide -->
+    <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
+        <div class="container py-5 text-center card-glass text-white">
+            <h1 class="display-5 fw-bold animated bounceInRight ">Optez pour un service rapide à bon prix</h1>
+        </div>
+    </div>
+    <!-- end single slide -->
+<main class="container-fluid">
+    <!-- products -->
+
+    <div class="container">
+        <div class="row py-4">
+            <div class="col-md-6">
+                <div class="card card-body">
+                    <h4>Formulaire d'achat  {#  { alea }} #}      {{ app.session.get('nombreType') }} </h4>
+                    <hr>
+                    <div class="container">
+                        <!--form action=""-->
+                            {{ form_start(formulaire) }}
+                            <div class="form-group mb-3">
+                                {{ form_row(formulaire.Prenom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Souleymane'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_row(formulaire.Nom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Ndiaye'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_row(formulaire.Telephone , {attr: {'class': 'form-control', 'placeholder': 'Exemple: 781352588'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_row(formulaire.email , {attr: {'class': 'form-control', 'placeholder': 'Exemple: ndaiayesouley@gmail.com'}}) }}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_row(formulaire.Adresse , {attr: {'class': 'form-control', 'placeholder': 'Exemple: saint-louis pikine rue tall'}}) }}
+                                <!--input class="form-control" type="text" placeholder="Ville"-->
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form_row(formulaire.date , {attr: {'class': 'form-control'}}) }}
+                            </div>
+                            <p><strong>Mode de Payement</strong></p>
+                            <div class="form-group mb-3">
+                                {{ form_row(formulaire.ModePayement , {attr: {'class': 'form-control'}}) }}
+                                <!--input class="form-check-input" type="radio" value="" aria-label="..." name="mode" id="domicile"-->
+                                <!--label for="domicile" class="form-check-label">A la livraison</label -->
+                            </div>
+                            <div class="form-group mb-3">
+                                 {# { form_label(formulaire.Livraison, null, {
+                                    'label': 'A la livraison',
+                                    'label_attr': {'class': 'foo'}
+                                }) }}
+                                {{ form_widget(formulaire.Livraison,{attr: {'class': 'form-check-input','name': 'mode','id':'domicile'}}) }} #}
+                                <!-- input class="form-check-input" type="radio" value="" aria-label="..." name="mode" id="inline" >
+                                < label for="inline" class="form-check-label">En Line</label -->
+                            </div>
+                            <div align="right">
+                                {{ form_row(formulaire.Valider , {attr: {'class': 'btn btn-primary'}}) }}
+                                <!-- a class="btn btn-outline-primary" href="achat.html">Valider</a -->
+                            </div>
+                            {{ form_end(formulaire) }}
+                        <!--/form-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-body">
+                    <div class="row">
+                        <!--div class="col-md-6">
+                            <img src="{{ asset('img/img.jpg') }}" class="card-img-top img-fluid" alt=""></div -->
+                        {% for nombre in 1..app.session.get('nombreType') %}
+                            {% set produi = "produit" ~ nombre %}
+                        <div class="col-md-6">
+                            <p><strong>Designation:</strong> {{ app.session.get(produi)[1] }} frs CFA</p>
+                            <p><strong>Prix unitaire:</strong> {{ app.session.get(produi)[2] }} frs CFA</p>
+                            <p><strong>Quantité:</strong> {{ app.session.get(produi)[3] }}</p>
+                        </div>
+                        {% endfor %}
+                        <hr>
+                        <p><strong>Total:</strong> {{ app.session.get('valeurPanier') }} frs CFA</p>
+                    </div>
+                </div>
+                <div class="card card-body bg-color1 border-color2 mt-3">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto ad ullam in dolorem reiciendis obcaecati rerum deleniti labore nihil officiis, nulla sunt corrupti esse aspernatur, voluptas maiores provident ea ducimus!
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
