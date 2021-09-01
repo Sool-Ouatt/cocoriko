@@ -59,7 +59,7 @@
                                     Réduction: {{ produit.tauxReduction ~ "%" }}
                                 </p>
                                 <div align="right">
-                                    <a class="btn btn-outline-primary" href="{{ '/panier/ajout/' ~ produit.id}}">Acheter</a>
+                                    <a class="btn btn-outline-primary" href="{{ '/panier/ajout/' ~ produit.id}}">{{ app.session.get("nombreType") ? 'Ajouter au panier' : 'Acheter'}}</a>
                                 </div>
                             </div>
                         </div>

@@ -57,11 +57,14 @@ class Entreprise
      */
     private $updatedAt;
 
+    public function __construct(){
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
     public function getIdEntreprise(): ?string
     {
         return $this->idEntreprise;
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
     }
 
     public function setIdEntreprise(string $idEntreprise): self

@@ -53,6 +53,11 @@ class Client
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="telephoneClient", cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function __construct()
     {
         $this->entreprises = new ArrayCollection();
@@ -189,6 +194,23 @@ class Client
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        // set the owning side of the relation if necessary
+        if ($user->getTelephoneClient() !== $this) {
+            $user->setTelephoneClient($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }

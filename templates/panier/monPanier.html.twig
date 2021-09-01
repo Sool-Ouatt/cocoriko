@@ -12,80 +12,55 @@
     <!-- end single slide -->
     <main class="container-fluid">
 
-        <div class="container">
-            <div class="row py-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <img src= "{{asset('img/img.jpg')}}" alt="">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card card-body mt-3">
-                        <p><strong>Prix : </strong><input type="number" id="prix" name="prix" value={{ produit.prixVente }} disabled/> Fcfa </p>
-                        <p><strong>Réduction :</strong> {{ produit.tauxReduction ~ "%" }} </p>
-                        <p><strong>Poids :</strong> {{ produit.poids ~ " kg" }} </p>
-                        <p><strong>Description :</strong> {{ produit.designation}} </p>
-                    </div>
-                    <div class="card card-body mt-3">
-                        {# affichage du message flash #}
-                        {% for message in app.flashes('msProduitExiste') %}
-                            <div class="flash-notice">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="card card-body mt-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{ form_start(formulaire) }}
-                                <div class="form-group">
-                                    {{ form_row(formulaire.quantite, {attr: {'class': 'form-control'}}) }}
-                                    <!--input type="number" id="nombre" name="nombre" class="form-control" min=0 max=100 placeholder="Quantité"/-->
-                                </div>
-                            </div>
-                            <div class="col-md-6"align="right">
-                                     {{ form_row(formulaire.Suivant, {attr: {'class': 'btn btn-primary'}}) }}
-                                <!--a class="btn btn-outline-primary" href="{#'/achat/' ~ produit.id #}">Payer</a-->
-                            </div>
-                            {{ form_end(formulaire) }}
-                        </div>
-                        <!--hr>
-                        <p><strong>Total: </strong><input type="text" id="total" name="total" disabled/></p-->
-                    </div>
-                    <div class="card card-body bg-color1 border-color2 mt-3">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto ad ullam in dolorem reiciendis obcaecati rerum deleniti labore nihil officiis, nulla sunt corrupti esse aspernatur, voluptas maiores provident ea ducimus!
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <!-- autres produit -->
-        <div class="container-fluid">
-            <div class="row">
-                <h4 class="m-4">Produits similaires</h4>
-                <div class="owl-carousel">
-                    {% for prod in lesProduits %}
-                        <div class="item">
-                            <div class="card border-color2">
-                                <img src="{{ asset('img/img.jpg') }}" class="card-img-top" width=100 alt="">
-                                <div class="card-body">
-                                    <p class="p-card">
-                                        Prix: {{ prod.prixVente ~ " Fcfa" }}
-                                    </p>
-                                    <p class="p-card">
-                                        Poids: {{ prod.poids ~ " kg" }}
-                                    </p>
-                                    <p class="p-card">
-                                        Réduction: {{ prod.tauxReduction ~ "%" }}
-                                    </p>
-                                    <div align="right">
-                                        <a class="btn btn-outline-primary" href="{{ '/panier/ajout/' ~ prod.id }}">Acheter</a>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="container">
+        <div class="col-md-6">
+            <div class="card card-body">
+                <div class="row">
+                    <!--div class="col-md-6">
+                            <img src="{{ asset('img/img.jpg') }}" class="card-img-top img-fluid" alt=""></div -->
+                    {% for nombre in 1..app.session.get('nombreType') %}
+                        {% set produi = "produit" ~ nombre %}
+                        <div class="col-md-6">
+                            <p><strong>Designation:</strong> {{ app.session.get(produi)[1] }} frs CFA</p>
+                            <p><strong>Prix unitaire:</strong> {{ app.session.get(produi)[2] }} frs CFA</p>
+                            <p><strong>Quantité:</strong> {{ app.session.get(produi)[3] }}</p>
                         </div>
                     {% endfor %}
+                    <hr>
+                    <p><strong>Total:</strong> {{ app.session.get('valeurPanier') }} frs CFA</p>
+                    <a href="{{ is_granted('ROLE_CLIENT_ENTREPRISE') ? path('validationEntreprise') : path('validationClient') }}">valide</a>
                 </div>
             </div>
         </div>
+    </div>
+    <hr>
+    <!-- autres produit -->
+    <div class="container-fluid">
+        <div class="row">
+            <h4 class="m-4">Ajouter d'autres produits</h4>
+            <div class="owl-carousel">
+                {% for prod in lesProduits %}
+                    <div class="item">
+                        <div class="card border-color2">
+                            <img src="{{ asset('img/img.jpg') }}" class="card-img-top" width=100 alt="">
+                            <div class="card-body">
+                                <p class="p-card">
+                                    Prix: {{ prod.prixVente ~ " Fcfa" }}
+                                </p>
+                                <p class="p-card">
+                                    Poids: {{ prod.poids ~ " kg" }}
+                                </p>
+                                <p class="p-card">
+                                    Réduction: {{ prod.tauxReduction ~ "%" }}
+                                </p>
+                                <div align="right">
+                                    <a class="btn btn-outline-primary" href="{{ '/panier/ajout/' ~ prod.id }}">Acheter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

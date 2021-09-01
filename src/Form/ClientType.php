@@ -4,6 +4,10 @@ namespace App\Form;
 
 use App\Entity\Client;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,8 +20,15 @@ class ClientType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('email')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('date',DateType::class,['mapped' => false])
+            ->add('Adresse',TextType::class,['mapped' => false])
+            ->add('ModePayement', ChoiceType::class, [
+                'choices' => [
+                    'En ligne' => 'Enligne',
+                    'A la livraison' => 'Livraison',
+                    'A la boutique' => 'Magasin', ],
+                'mapped'  => false])
+            ->add('Valider', SubmitType::class)
         ;
     }
 

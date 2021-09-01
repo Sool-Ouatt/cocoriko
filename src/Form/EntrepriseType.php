@@ -3,7 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Entreprise;
+use Doctrine\DBAL\Types\BigIntType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,10 +22,14 @@ class EntrepriseType extends AbstractType
             ->add('rue')
             ->add('porte')
             ->add('telephoneEntreprise')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('telephoneResponsable')
-        ;
+            ->add('telephoneDuResponsable',TelType::class,['mapped' => false])
+            ->add('nom',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['mapped' => false])
+            ->add('prenom',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['mapped' => false])
+            ->add('email',EmailType::class,['mapped' => false])
+            ->add('username',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['mapped' => false])
+            ->add('motDePasse',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['mapped' => false])
+            ->add('Enregistrer', SubmitType::class)
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

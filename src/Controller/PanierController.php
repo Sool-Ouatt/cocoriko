@@ -6,6 +6,7 @@ use App\Entity\Client;
 use App\Entity\Commande;
 use App\Entity\Contenu;
 use App\Entity\Produit;
+use App\Form\ClientType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,7 +57,133 @@ class PanierController extends AbstractController
     }
 
     /**
-     * @Route("/panier/valider", name="validation")
+     * @Route("/panier/essaie", name="essai")
+     */
+    public function messEssaie(Request $request) :Response
+    {
+        $client1 = new Client();
+        $client1->setNom("Ndiaye");
+        $client1->setPrenom("boubacar");
+        $client1->setTelephone(781372588);
+        $client1->setEmail("ndiaye.bouba@gmail.com");
+
+        $forClient = $this->createForm(ClientType::class,$client1);
+
+        return $this->render('panier/essai.html.twig', [
+            'formulaire' => $forClient->createView(),
+        ]);
+    }
+    /**
+     * @Route("/panier/contenu", name="contenuPanier")
+     */
+    public function contenuPanier():Response
+    {
+        $respository = $this->getDoctrine()->getRepository(Produit::class);
+        $produits = $respository->lesProduits();
+        return $this->render('panier/monPanier.html.twig', [
+            'controller_name' => 'PanierController',
+            'lesProduits' => $produits,
+        ]);
+    }
+
+    /**
+     * @Route("/panier/valider/entreprise", name="validationEntreprise")
+     */
+    public function validationCommande(Request $request,EntityManagerInterface $em):Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        $session = $request->getSession();
+        $valeurPanier = $session->get('valeurPanier');
+        $nombreType = $session->get("nombreType");
+        /*
+         * pour Id commande nous prenons
+         */
+        $dateJour = date_format(new \DateTime(),'Y-m-d');
+        $aleatoire = rand();
+        $idCommande = $dateJour."-".((string)$aleatoire);
+
+        $formAchat = $this->createFormBuilder()
+            ->add('date',DateType::class,['label' => 'Date de livraison'])
+            ->add('save', SubmitType::class, ['label' => 'Valider'])
+            ->getForm();
+
+        $formAchat->handleRequest($request);
+        if($formAchat->isSubmitted() && $formAchat->isValid()){
+
+            $donnees = $formAchat->getData();
+            $em->getConnection()->beginTransaction();
+            try {
+
+                $modePayement = $donnees['ModePayement'];
+                $dateLivraison = $donnees['date'];
+
+                // on contruit l'adresse avec ville quatier....de l'entreprise
+                $adresse = $donnees['Adresse'];
+
+                $client = new Client();
+                $commande = new Commande();
+
+
+                $client->setTelephone($telephone);
+                $client->setNom($nom);
+                $client->setPrenom($prenom);
+                $client->setEmail($email);
+
+                $commande->setId($idCommande);
+                $commande->setTeleploneClient($client);
+                $commande->setDateCommande($dateLivraison);
+                $commande->setAdresseLivraison($adresse);
+                $commande->setValeur($valeurPanier);
+
+                // verifie si le client existe deja
+                $respository = $this->getDoctrine()->getRepository(Client::class);
+                $clt = $respository->find($telephone);
+                if ($clt == null){
+                    $em->persist($client);
+                    $em->persist($commande);
+                    //parcourir les contenus et les persistés
+                    for($i=0; $i <= $nombreType; $i++)
+                    {
+                        $produit = $session->get("produit".((string)($i+1)));
+                        $respository = $this->getDoctrine()->getRepository(Produit::class);
+                        $prod = $respository->find($produit[0]);
+                        $prodQuantite = $produit[1];
+
+                        $contenu = new Contenu();
+                        $contenu->setIdCommande($commande);
+                        $contenu->setIdProduit($prod);
+                        $contenu->setQunatite($prodQuantite);
+                        $em->persist($contenu);
+                    }
+
+                    $em->flush();
+                    $em->getConnection()->commit();
+
+                    if ($modePayement == 'Enligne')
+                        return $this->redirectToRoute('payement',array('id'=>$idCommande));
+                    else
+                        return $this->redirectToRoute('mesCommande',array('id'=>$telephone));
+                }else{
+                    // gerer Id produit avec les sesssion................
+                    return $this->redirectToRoute('mesCommande',array('id'=>$telephone));
+                }
+
+            }catch (Exception $e) {
+                $em->getConnection()->rollBack();
+                throw $e;
+            }
+        }
+
+        return $this->render('panier/validation.html.twig', [
+            'controller_name' => 'PanierController',
+            'formulaire' => $formAchat->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/panier/valider/client", name="validationClient")
      */
     public function validationAchat(Request $request,EntityManagerInterface $em):Response
     {
@@ -69,21 +197,7 @@ class PanierController extends AbstractController
         $aleatoire = rand();
         $idCommande = $dateJour."-".((string)$aleatoire);
 
-        $formAchat = $this->createFormBuilder()
-            ->add('Prenom',TextType::class)
-            ->add('Nom',TextType::class)
-            ->add('Telephone',TelType::class)
-            ->add('email',EmailType::class)
-            ->add('date',DateType::class)
-            ->add('Adresse',TextType::class)
-            ->add('ModePayement', ChoiceType::class, [
-                'choices'  => [
-                    'En ligne' => 'Enligne',
-                    'A la livraison' => 'Livraison',
-                    'A la boutique' => 'Magasin', ],
-                ])
-            ->add('Valider', SubmitType::class)
-            ->getForm();
+        $formAchat = $this->createForm(ClientType::class);
 
         $formAchat->handleRequest($request);
         if($formAchat->isSubmitted() && $formAchat->isValid()){
@@ -93,9 +207,9 @@ class PanierController extends AbstractController
             try {
 
                 $modePayement = $donnees['ModePayement'];
-                $telephone = $donnees['Telephone'];
-                $prenom = $donnees['Prenom'];
-                $nom = $donnees['Nom'];
+                $telephone = $donnees['telephone'];
+                $prenom = $donnees['prenom'];
+                $nom = $donnees['nom'];
                 $email = $donnees['email'];
                 $dateLivraison = $donnees['date'];
                 $adresse = $donnees['Adresse'];
@@ -155,8 +269,6 @@ class PanierController extends AbstractController
         }
         return $this->render('panier/validation.html.twig', [
             'controller_name' => 'PanierController',
-            'valeurPanier' => $valeurPanier,
-            'alea' => $idCommande,
             'formulaire' => $formAchat->createView()
         ]);
     }
@@ -244,18 +356,16 @@ class PanierController extends AbstractController
                     $session->set("valeurPanier",$valeur);
                 }
 
-                return $this->redirectToRoute('validation');
+                return $this->redirectToRoute('contenuPanier');
 
             }catch (Exception $e) {
                 $em->getConnection()->rollBack();
                 throw $e;
             }
         }
-        $respository = $this->getDoctrine()->getRepository(Produit::class);
-        $produits = $respository->lesProduits();
-        return $this->render('panier/monPanier.html.twig', [
+
+        return $this->render('panier/ajoutPanier.html.twig', [
             'produit' => $prod,
-            'lesProduits' => $produits,
             'formulaire' => $formDetail->createView()
         ]);
     }

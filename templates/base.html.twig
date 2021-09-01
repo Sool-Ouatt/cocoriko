@@ -67,6 +67,28 @@
                 <li class="nav-item">
                     <a class="nav-link fw-bold" href="">Contact</a>
                 </li>
+                {% if(app.session.get("nombreType")) %}
+                <li class="nav-item">
+                    <a class="nav-link fw-bold" href="{{path('contenuPanier')}}">Panier</a>
+                </li>
+                {% endif %}
+                {% if is_granted('ROLE_CLIENT_ENTREPRISE') %}
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="">Mon Espace</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_CLIENT_ENTREPRISE') %}
+                <li class="nav-item">
+                    <a class="nav-link fw-bold" href="{{path('app_logout')}}">Déconnecter</a>
+                </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="{{path('Enregistrer')}}">Créer un Compte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="{{path('app_login')}}">Se Connecter</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
