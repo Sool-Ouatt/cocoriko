@@ -34,11 +34,6 @@ class Client
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=Entreprise::class, mappedBy="telephoneResponsable", orphanRemoval=true)
-     */
-    private $entreprises;
-
-    /**
      * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="teleploneClient", orphanRemoval=true)
      */
     private $commandes;
@@ -58,9 +53,14 @@ class Client
      */
     private $user;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Entreprise::class, mappedBy="telephoneEntreprise", cascade={"persist", "remove"})
+     */
+    private $entreprise;
+
     public function __construct()
     {
-        $this->entreprises = new ArrayCollection();
+        //$this->entreprises = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
@@ -110,36 +110,6 @@ class Client
     public function setEmail(?string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Entreprise[]
-     */
-    public function getEntreprises(): Collection
-    {
-        return $this->entreprises;
-    }
-
-    public function addEntreprise(Entreprise $entreprise): self
-    {
-        if (!$this->entreprises->contains($entreprise)) {
-            $this->entreprises[] = $entreprise;
-            $entreprise->setTelephoneResponsable($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEntreprise(Entreprise $entreprise): self
-    {
-        if ($this->entreprises->removeElement($entreprise)) {
-            // set the owning side to null (unless already changed)
-            if ($entreprise->getTelephoneResponsable() === $this) {
-                $entreprise->setTelephoneResponsable(null);
-            }
-        }
 
         return $this;
     }
@@ -211,6 +181,23 @@ class Client
         }
 
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?Entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(Entreprise $entreprise): self
+    {
+        // set the owning side of the relation if necessary
+        if ($entreprise->getTelephoneEntreprise() !== $this) {
+            $entreprise->setTelephoneEntreprise($this);
+        }
+
+        $this->entreprise = $entreprise;
 
         return $this;
     }

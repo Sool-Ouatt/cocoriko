@@ -1,1 +1,15 @@
 {{ client }}
+{% for commande in commandes %}
+    <h3>Commande du {{ commande.dateCommande|date('d-m-y') }}</h3>
+    <ul>
+        {% for content in commande.contenus %}
+
+            <li>
+                {{ content.idProduit.designation }}
+                nombre {{ content.qunatite }}
+            </li>
+
+        {% endfor %}
+    </ul>
+
+{% endfor %}

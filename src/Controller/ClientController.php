@@ -42,10 +42,7 @@ class ClientController extends AbstractController
                 $newClient = new Client();
                 //$newEntreprise = new Entreprise();
 
-               /* $form->get('agreeTerms')->getData();
-                 $form->get('agreeTerms')->setData(true); */
-
-                $newClient->setTelephone($formInscription->get('telephoneDuResponsable')->getData());
+                $newClient->setTelephone($formInscription->get('telephoneEntreprise')->getData());
                 $newClient->setPrenom($formInscription->get('prenom')->getData());
                 $newClient->setNom($formInscription->get('nom')->getData());
                 $newClient->setEmail($formInscription->get('email')->getData());
@@ -57,17 +54,10 @@ class ClientController extends AbstractController
                 $newUser->setRoles(array("ROLE_DESACTIF"));
                 $newUser->setTextValidation($this->generationValidate());
                 $newUser->setTelephoneClient($newClient);
-                /*
-                $newEntreprise->setTelephoneEntreprise($donnees['telephoneEntreprise']);
-                $newEntreprise->setTelephoneResponsable($donnees['telephoneResponsable']);
-                $newEntreprise->setVille($donnees[]);
-                $newEntreprise->setQuartier($donnees[]);
-                $newEntreprise->setRue($donnees[]);
-                $newEntreprise->setPorte($donnees[])
-                 */
+
                 $em->persist($newClient);
                 $em->persist($newUser);
-                $donnees->setTelephoneResponsable($newClient);
+                $donnees->setTelephoneEntreprise($newClient);
                 $em->persist($donnees);
                 $em->flush();
 

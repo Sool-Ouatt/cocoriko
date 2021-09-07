@@ -17,12 +17,6 @@ class Entreprise
     private $idEntreprise;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="entreprises")
-     * @ORM\JoinColumn(name="telephoneResponsable", referencedColumnName="telephone", nullable=false)
-     */
-    private $telephoneResponsable;
-
-    /**
      * @ORM\Column(type="string", length=30)
      */
     private $ville;
@@ -43,9 +37,15 @@ class Entreprise
     private $porte;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="entreprise", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="telephoneEntreprise", referencedColumnName="telephone", nullable=false)
      */
     private $telephoneEntreprise;
+
+    /**
+     * @ORM\Column(type="bigint", nullable=true)
+     */
+    private $telephoneResponsable;
 
     /**
      * @ORM\Column(type="datetime")
@@ -70,18 +70,6 @@ class Entreprise
     public function setIdEntreprise(string $idEntreprise): self
     {
         $this->idEntreprise = $idEntreprise;
-
-        return $this;
-    }
-
-    public function getTelephoneResponsable(): ?Client
-    {
-        return $this->telephoneResponsable;
-    }
-
-    public function setTelephoneResponsable(?Client $telephoneResponsable): self
-    {
-        $this->telephoneResponsable = $telephoneResponsable;
 
         return $this;
     }
@@ -134,18 +122,6 @@ class Entreprise
         return $this;
     }
 
-    public function getTelephoneEntreprise(): ?string
-    {
-        return $this->telephoneEntreprise;
-    }
-
-    public function setTelephoneEntreprise(string $telephoneEntreprise): self
-    {
-        $this->telephoneEntreprise = $telephoneEntreprise;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -166,6 +142,30 @@ class Entreprise
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getTelephoneEntreprise(): ?Client
+    {
+        return $this->telephoneEntreprise;
+    }
+
+    public function setTelephoneEntreprise(Client $telephoneEntreprise): self
+    {
+        $this->telephoneEntreprise = $telephoneEntreprise;
+
+        return $this;
+    }
+
+    public function getTelephoneResponsable(): ?string
+    {
+        return $this->telephoneResponsable;
+    }
+
+    public function setTelephoneResponsable(string $telephoneResponsable): self
+    {
+        $this->telephoneResponsable = $telephoneResponsable;
 
         return $this;
     }

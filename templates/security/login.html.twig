@@ -7,20 +7,17 @@
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-
     {# affichage du message flash #}
     {% for message in app.flashes('msSucces') %}
         <div class="flash-notice">
             {{ message }}
         </div>
     {% endfor %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+    {% for message in app.flashes('msValide') %}
+        <div class="flash-notice">
+            {{ message }}
         </div>
-    {% endif %}
-
+    {% endfor %}
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputUsername">Username</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
