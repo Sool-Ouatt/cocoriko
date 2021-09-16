@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Koka-Riko{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
+    and uncomment the following Encore helpers to start using Symfony UX #}
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
+    {% block stylesheets %}
+        {#{{ encore_entry_link_tags('app') }}#}
+    {% endblock %}
+</head>
+<body class="bg-light" style="background-image: url(img/poulet.jpg); background-size: cover;">
+    <div class="col-lg-4 mx-auto py-5">
+        <div class="card card-body shadow">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                {# affichage du message flash #}
+                {% for message in app.flashes('msSucces') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('msValide') %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+                <label for="inputUsername">Username</label>
+                <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control mb-4" autocomplete="username" required autofocus>
+                <label for="inputPassword">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control mb-4" autocomplete="current-password" required>
+
+                <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+                >
+
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+        #}
+        <div align="center">
+            <button class="btn btn-sm btn-outline-primary" type="submit">
+                <i class="fas fa-sign-in-alt"></i> Connexion
+            </button>
+        </div>
+    </form>
+</div>
+</div>
+</body>
+<script src="{{asset('fontawesome/js/all.min.js')}}" ></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('vendors/jquery.min.js')}}"></script>
+<script src="{{asset('js/owl.carousel.min.js')}}"></script>
+<script src="{{asset('js/monScript.js')}}" ></script>
+<script src="{{asset('js/style.js')}}"></script>
+</html>
+

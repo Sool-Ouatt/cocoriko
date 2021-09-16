@@ -17,10 +17,8 @@ class EntrepriseType extends AbstractType
     {
         $builder
             ->add('idEntreprise')
+            ->add('adresse')
             ->add('ville')
-            ->add('quartier')
-            ->add('rue')
-            ->add('porte')
             ->add('telephoneEntreprise',TelType::class,['mapped' => false])
             ->add('telephoneResponsable',TelType::class)
             ->add('nom',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['mapped' => false])

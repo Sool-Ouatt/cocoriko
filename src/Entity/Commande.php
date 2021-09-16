@@ -20,9 +20,9 @@ class Commande
 
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="commandes")
-     * @ORM\JoinColumn(name="teleploneClient", referencedColumnName="telephone", nullable=false)
+     * @ORM\JoinColumn(name="client", referencedColumnName="telephone", nullable=false)
      */
-    private $teleploneClient;
+    private $client;
 
     /**
      * @ORM\Column(type="date")
@@ -40,7 +40,7 @@ class Commande
     private $adresseLivraison;
 
     /**
-     * @ORM\OneToMany(targetEntity=Contenu::class, mappedBy="idCommande", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Contenu::class, mappedBy="commande", orphanRemoval=true)
      */
     private $contenus;
 
@@ -79,14 +79,14 @@ class Commande
         return $this;
     }
 
-    public function getTeleploneClient(): ?Client
+    public function getClient(): ?Client
     {
-        return $this->teleploneClient;
+        return $this->client;
     }
 
-    public function setTeleploneClient(?Client $teleploneClient): self
+    public function setClient(?Client $client): self
     {
-        $this->teleploneClient = $teleploneClient;
+        $this->client = $client;
 
         return $this;
     }

@@ -1,0 +1,32 @@
+ {% for produit in produits %}
+  <!-- single product -->
+  <div class="col-md-4 p-4">
+    <div class="card border-color2">
+      <img src="{{ asset('img/produits/' ~ produit.image) }}" class="card-img-top" width=100 alt="">
+      <div class="card-body">
+        <p class="p-card">
+          Désignation: {{produit.designation}}
+        </p>
+        <p class="p-card">
+          Prix de vente: {{produit.prixVente}}
+        </p>
+        <p class="p-card">
+          Poids: {{produit.poids}} Kg
+        </p>
+        <p class="p-card">
+          Réduction: {{produit.tauxReduction}}%
+        </p>
+        <div align="right">
+          <a href="{{path('bg_edit_produit', {'id' : produit.id})}}" class=""><i class="fas fa-edit" style="color: #111"></i></a> |
+          <a href="#" class=""><i class="fas fa-check-circle" style="color: green"></i></a> |
+          <a href="{{path('bg_delete_produit', {'id' : produit.id})}}" class="" onclick="return confirm('Voulez-vous vraiment supprimer?')"><i class="fas fa-trash" style="color: red"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end single product -->
+{% endfor %}
+
+<!-- Pagination -->
+<div>{{ knp_pagination_render(produits) }}</div>
+

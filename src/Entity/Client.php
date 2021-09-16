@@ -34,7 +34,7 @@ class Client
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="teleploneClient", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="client", orphanRemoval=true)
      */
     private $commandes;
 

@@ -49,30 +49,31 @@ class PanierController extends AbstractController
         $quantiteAncien = 0;
         if($session->get("nombreType") !== null)
         {
-            for($i=0; $i <= $session->get("nombreType"); $i++)
+            for($i=0; $i < $session->get("nombreType"); $i++)
             {
                 $produit = $session->get("produit".((string)($i+1)));
+                // dd($produit);
                 if($prod->getId() == $produit[0])
                 {
                     $verification = true;
                     $leProduit = "produit".((string)($i+1));
                     $quantiteAncien = $produit[3];
                     $this->addFlash("msProduitExiste","Ce produit existe déjà dans le panier, voulez vous modifier sa quantité!\n
-                    l'ancienne quantité est : ".$quantiteAncien);
+                        l'ancienne quantité est : ".$quantiteAncien);
                 }
             }
         }
         if($verification)
         {
             $formDetail = $this->createFormBuilder()
-                ->add('quantite',NumberType::class,['empty_data' => $quantiteAncien])
-                ->add('Suivant', SubmitType::class)
-                ->getForm();
+            ->add('quantite',NumberType::class,['data' => $quantiteAncien, 'label' => false])
+            ->add('Suivant', SubmitType::class, ['label' => 'Ajouter au panier'])
+            ->getForm();
         }else{
             $formDetail = $this->createFormBuilder()
-                ->add('quantite',NumberType::class)
-                ->add('Suivant', SubmitType::class)
-                ->getForm();
+            ->add('quantite',NumberType::class, ['data' => 1, 'label' => false])
+            ->add('Suivant', SubmitType::class, ['label' => 'Ajouter au panier'])
+            ->getForm();
         }
 
         $formDetail->handleRequest($request);
@@ -136,6 +137,33 @@ class PanierController extends AbstractController
     }
 
     /**
+     * @Route ("/panier/supprimer/{id}" , name="supprimerProduit")
+     */
+    public function supprimer($id, Request $request):Response
+    {
+        $session = $request->getSession();
+
+        for($i=0; $i < $session->get("nombreType"); $i++)
+        {
+            $produit = $session->get("produit".((string)($i+1)));
+            if($id == $produit[0])
+            {
+                $session->set("produit".((string)($i+1)), $session->get("produit".((string)$session->get("nombreType"))));
+
+                $val = $session->get("valeurPanier");
+
+                $session->set("valeurPanier",$val-($produit[2]*$produit[3]));
+            }
+        }
+        $session->set("nombreType",$session->get("nombreType")-1);
+        if($session->get("nombreType") == 0){
+            return $this->redirectToRoute('home');
+        } else {
+            return $this->redirectToRoute('contenuPanier');
+        }
+    }
+
+    /**
      * @Route("/panier/valider/entreprise", name="validationEntreprise")
      */
     public function validationCommande(Request $request,EntityManagerInterface $em):Response
@@ -154,9 +182,9 @@ class PanierController extends AbstractController
         $idCommande = $dateJour."-".((string)$aleatoire);
 
         $formAchat = $this->createFormBuilder()
-            ->add('date',DateType::class,['label' => 'Date de livraison'])
-            ->add('save', SubmitType::class, ['label' => 'Valider'])
-            ->getForm();
+        ->add('date',DateType::class,['label' => 'Date de livraison'])
+        ->add('save', SubmitType::class, ['label' => 'Valider'])
+        ->getForm();
 
         $formAchat->handleRequest($request);
         if($formAchat->isSubmitted() && $formAchat->isValid()){
@@ -169,7 +197,7 @@ class PanierController extends AbstractController
 
                 $dateLivraison = $donnees['date'];
                 // on contruit l'adresse avec ville quatier....de l'entreprise
-                $adresse = $entreprise->getVille()." ".$entreprise->getQuartier()." ".$entreprise->getRue()." ".$entreprise->getPorte();
+                $adresse = $entreprise->getQuartier()." ".$entreprise->getVille();
 
                 $client = $user->getTelephoneClient();
                 $commande = new Commande();
@@ -183,18 +211,18 @@ class PanierController extends AbstractController
                 $em->persist($commande);
                 //parcourir les contenus et les persistés
                 for($i=0; $i < $nombreType; $i++)
-                    {
-                        $produit = $session->get("produit".((string)($i+1)));
-                        $respository = $this->getDoctrine()->getRepository(Produit::class);
-                        $prod = $respository->find($produit[0]);
-                        $prodQuantite = $produit[3];
+                {
+                    $produit = $session->get("produit".((string)($i+1)));
+                    $respository = $this->getDoctrine()->getRepository(Produit::class);
+                    $prod = $respository->find($produit[0]);
+                    $prodQuantite = $produit[3];
 
-                        $contenu = new Contenu();
-                        $contenu->setIdCommande($commande);
-                        $contenu->setIdProduit($prod);
-                        $contenu->setQunatite((int)$prodQuantite);
-                        $em->persist($contenu);
-                    }
+                    $contenu = new Contenu();
+                    $contenu->setIdCommande($commande);
+                    $contenu->setIdProduit($prod);
+                    $contenu->setQunatite((int)$prodQuantite);
+                    $em->persist($contenu);
+                }
                 $em->flush();
                 $em->getConnection()->commit();
                 return $this->redirectToRoute('mesCommande',array('id'=>$client->getTelephone()));
@@ -260,18 +288,18 @@ class PanierController extends AbstractController
 
                 //parcourir les contenus et les persistés
                 for($i=0; $i < $nombreType; $i++)
-                    {
-                        $produit = $session->get("produit".((string)($i+1)));
-                        $respository = $this->getDoctrine()->getRepository(Produit::class);
-                        $prod = $respository->find($produit[0]);
-                        $prodQuantite = $produit[3];
+                {
+                    $produit = $session->get("produit".((string)($i+1)));
+                    $respository = $this->getDoctrine()->getRepository(Produit::class);
+                    $prod = $respository->find($produit[0]);
+                    $prodQuantite = $produit[3];
 
-                        $contenu = new Contenu();
-                        $contenu->setIdCommande($commande);
-                        $contenu->setIdProduit($prod);
-                        $contenu->setQunatite((int)$prodQuantite);
-                        $em->persist($contenu);
-                    }
+                    $contenu = new Contenu();
+                    $contenu->setIdCommande($commande);
+                    $contenu->setIdProduit($prod);
+                    $contenu->setQunatite((int)$prodQuantite);
+                    $em->persist($contenu);
+                }
 
                 $em->flush();
                 $em->getConnection()->commit();

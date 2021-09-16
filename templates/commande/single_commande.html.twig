@@ -1,0 +1,65 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block body %}
+  <div class="container-fluid py-4">
+    <h4>Gestionnaires des Commandes</h4>
+    <hr>
+    <div class="col-lg-8 mx-auto">
+      <div class="row py-3">
+        <div class="col-sm">
+          <div class="card shadow">
+            <div class="card-header bg-warning"><h4>Commande</h4></div>
+            <div class="card-body">
+              <p class="mb-1"><strong>ID Commande</strong> {{commande.id}}</p>
+              <p class="mb-1"><strong>Valeur</strong> {{commande.valeur}}</p>
+              <p class="mb-1"><strong>Dte. Commande</strong> {{commande.dateCommande | date('d M Y')}}</p>
+              <p class="mb-1"><strong>Adr. Livraison</strong> {{commande.adresseLivraison}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="card shadow">
+            <div class="card-header bg-info"><h4>Client</h4></div>
+            <div class="card-body">
+              <p class="mb-1"><strong>Nom</strong> {{commande.client.nom}}</p>
+              <p class="mb-1"><strong>Prénom</strong> {{commande.client.prenom}}</p>
+              <p class="mb-1"><strong>Téléphone</strong> {{commande.client.telephone}}</p>
+              <p class="mb-1"><strong>E-mail</strong> {{commande.client.email}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="card shadow">
+          <div class="card-header bg-primary"><h4>Contenus de la Commande</h4></div>
+          <div class="card-body">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Produit</th>
+                  <th>Quantité</th>
+                  <th>Prix Unitaire</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for contenu in commande.contenus %}
+                  <tr>
+                    <td>
+                      {% if contenu.produit.image %}
+                        <img src="{{ asset('img/produits/' ~ contenu.produit.image) }}" class="img-fluid rounded-start" width="150">
+                      {% else %}
+                        <img src="{{ asset('img/img.jpg') }}" class="img-fluid rounded-start" width="150">
+                      {% endif %}
+                    </td>
+                    <td>{{contenu.quantite}}</td>
+                    <td>{{contenu.produit.prixVente}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

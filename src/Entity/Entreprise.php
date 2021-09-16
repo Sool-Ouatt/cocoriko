@@ -17,24 +17,14 @@ class Entreprise
     private $idEntreprise;
 
     /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $adresse;
+
+    /**
      * @ORM\Column(type="string", length=30)
      */
     private $ville;
-
-    /**
-     * @ORM\Column(type="string", length=40)
-     */
-    private $quartier;
-
-    /**
-     * @ORM\Column(type="string", length=25, nullable=true)
-     */
-    private $rue;
-
-    /**
-     * @ORM\Column(type="string", length=3, nullable=true)
-     */
-    private $porte;
 
     /**
      * @ORM\OneToOne(targetEntity=Client::class, inversedBy="entreprise", cascade={"persist", "remove"})
@@ -74,6 +64,18 @@ class Entreprise
         return $this;
     }
 
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
     public function getVille(): ?string
     {
         return $this->ville;
@@ -82,42 +84,6 @@ class Entreprise
     public function setVille(string $ville): self
     {
         $this->ville = $ville;
-
-        return $this;
-    }
-
-    public function getQuartier(): ?string
-    {
-        return $this->quartier;
-    }
-
-    public function setQuartier(string $quartier): self
-    {
-        $this->quartier = $quartier;
-
-        return $this;
-    }
-
-    public function getRue(): ?string
-    {
-        return $this->rue;
-    }
-
-    public function setRue(?string $rue): self
-    {
-        $this->rue = $rue;
-
-        return $this;
-    }
-
-    public function getPorte(): ?string
-    {
-        return $this->porte;
-    }
-
-    public function setPorte(?string $porte): self
-    {
-        $this->porte = $porte;
 
         return $this;
     }

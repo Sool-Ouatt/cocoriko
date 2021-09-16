@@ -2,65 +2,88 @@
 
 {% block title %}Panier{% endblock %}
 
-{% block body %}
-    <!-- single slide -->
-    <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
-        <div class="container py-5 text-center card-glass text-white">
-            <h1 class="display-5 fw-bold animated bounceInRight ">Optez Pour un service rapide à bon prix</h1>
-        </div>
-    </div>
-    <!-- end single slide -->
-    <main class="container-fluid">
-
-    <div class="container">
-        <div class="col-md-6">
-            <div class="card card-body">
-                <div class="row">
-                    <!--div class="col-md-6">
-                            <img src="{{ asset('img/img.jpg') }}" class="card-img-top img-fluid" alt=""></div -->
-                    {% for nombre in 1..app.session.get('nombreType') %}
-                        {% set produi = "produit" ~ nombre %}
-                        <div class="col-md-6">
-                            <p><strong>Designation:</strong> {{ app.session.get(produi)[1] }} frs CFA</p>
-                            <p><strong>Prix unitaire:</strong> {{ app.session.get(produi)[2] }} frs CFA</p>
-                            <p><strong>Quantité:</strong> {{ app.session.get(produi)[3] }}</p>
+    {% block body %}
+        <div class="container-fluid">
+            <!-- single slide -->
+            <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
+                <div class="container py-5 text-center card-glass text-white">
+                    <h1 class="display-5 fw-bold animated bounceInRight ">Optez Pour un service rapide à bon prix</h1>
+                </div>
+            </div>
+            <div class="col-lg-7 mx-auto py-5">
+                <div class="card card-body ">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Designation</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th class="text-center"><i class="fas fa-ellipsis-v"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for nombre in 1..app.session.get('nombreType') %}
+                                    {% set produi = "produit" ~ nombre %}
+                                        <tr>
+                                            <td>
+                                                <img src="{{asset('img/img.jpg')}}" class="img-fluid" width="50" alt="">
+                                            </td>
+                                            <td>{{ app.session.get(produi)[1] }}</td>
+                                            <td>{{ app.session.get(produi)[3] }}</td>
+                                            <td>{{ app.session.get(produi)[2] }} frs CFA</td>
+                                            <td>
+                                                <div align="center">
+                                                    {# <a href="{{path('monPanier', {'id': app.session.get(produi)[0]})}}" class="btn btn-sm btn-outline-secondary" style="margin-right: 15px"><i class="fas fa-save" style="color: #111;"></i></a> #}
+                                                    <a href="{{path('supprimerProduit', {'id': app.session.get(produi)[0]})}}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash" style="color:red"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td colspan="3">Total</td>
+                                        <td>{{ app.session.get('valeurPanier') }} frs CFA</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    {% endfor %}
-                    <hr>
-                    <p><strong>Total:</strong> {{ app.session.get('valeurPanier') }} frs CFA</p>
-                    <a href="{{ is_granted('ROLE_CLIENT_ENTREPRISE') ? path('validationEntreprise') : path('validationClient') }}">valide</a>
+                        <div align="right">
+                            {# <a class="btn btn-sm btn-outline-primary" href="{{ is_granted('ROLE_CLIENT_ENTREPRISE') ? path('validationEntreprise') : path('validationClient') }}"><i class="fas fa-save"></i> Valider</a> #}
+                        </div>
+                    </div>
+                </div>
+                <!-- autres produit -->
+                <div class="container-fluid">
+                    <div class="row py-5">
+                        <h4 class="m-4">Ajouter d'autres produits</h4>
+                        <div class="owl-carousel">
+                            {% for prod in lesProduits %}
+                                <div class="item">
+                                    <div class="card">
+                                        {% if prod.image %}
+                                            <img src="{{ asset('img/produits/' ~ prod.image) }}" class="img-fluid card-img-top rounded-start" width="200">
+                                    {% else %}
+                                        <img src="{{ asset('img/img.jpg') }}" class="img-fluid card-img-top rounded-start" width="150">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <p class="p-card">
+                                            Prix: {{ prod.prixVente ~ " Fcfa" }}
+                                        </p>
+                                        <p class="p-card">
+                                            Poids: {{ prod.poids ~ " kg" }}
+                                        </p>
+                                        <p class="p-card mb-3">
+                                            Réduction: {{ prod.tauxReduction ~ "%" }}
+                                        </p>
+                                        <a class="btn btn-primary w-100 btn-item" href="{{ '/panier/ajout/' ~ prod.id}}"><i class="fas fa-cart-plus"></i> {{ app.session.get("nombreType") ? 'Ajouter au panier' : 'Acheter'}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr>
-    <!-- autres produit -->
-    <div class="container-fluid">
-        <div class="row">
-            <h4 class="m-4">Ajouter d'autres produits</h4>
-            <div class="owl-carousel">
-                {% for prod in lesProduits %}
-                    <div class="item">
-                        <div class="card border-color2">
-                            <img src="{{ asset('img/img.jpg') }}" class="card-img-top" width=100 alt="">
-                            <div class="card-body">
-                                <p class="p-card">
-                                    Prix: {{ prod.prixVente ~ " Fcfa" }}
-                                </p>
-                                <p class="p-card">
-                                    Poids: {{ prod.poids ~ " kg" }}
-                                </p>
-                                <p class="p-card">
-                                    Réduction: {{ prod.tauxReduction ~ "%" }}
-                                </p>
-                                <div align="right">
-                                    <a class="btn btn-outline-primary" href="{{ '/panier/ajout/' ~ prod.id }}">Acheter</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-{% endblock %}
+    {% endblock %}

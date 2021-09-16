@@ -2,46 +2,46 @@
 
 {% block title %}Panier{% endblock %}
 
-{% block body %}
+    {% block body %}
 
-    <!-- single slide -->
-    <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
-        <div class="container py-5 text-center card-glass text-white">
-            <h1 class="display-5 fw-bold animated bounceInRight ">Optez pour un service rapide à bon prix</h1>
+        <!-- single slide -->
+        <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
+            <div class="container py-5 text-center card-glass text-white">
+                <h1 class="display-5 fw-bold animated bounceInRight ">Optez pour un service rapide à bon prix</h1>
+            </div>
         </div>
-    </div>
-    <!-- end single slide -->
-<main class="container-fluid">
-    <!-- products -->
+        <!-- end single slide -->
+        <main class="container-fluid">
+            <!-- products -->
 
-    <div class="container">
-        <div class="row py-4">
-            <div class="col-md-6">
-                <div class="card card-body">
-                    <h5>Veuillez remplire le formulaire pour valider votre commande</h5>
-                    <hr>
-                    <div class="container">
-                        <!--form action=""-->
-                            {{ form_start(formulaire) }}
-                            <div class="form-group mb-3">
-                                {{ form_row(formulaire.prenom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Souleymane'}}) }}
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form_row(formulaire.nom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Ndiaye'}}) }}
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form_row(formulaire.telephone , {attr: {'class': 'form-control', 'placeholder': 'Exemple: 781352588'}}) }}
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form_row(formulaire.email , {attr: {'class': 'form-control', 'placeholder': 'Exemple: ndaiayesouley@gmail.com'}}) }}
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form_row(formulaire.Adresse , {attr: {'class': 'form-control', 'placeholder': 'Exemple: saint-louis pikine rue tall'}}) }}
-                                <!--input class="form-control" type="text" placeholder="Ville"-->
-                            </div>
-                            <div class="form-group mb-3">
-                                {{ form_row(formulaire.date , {attr: {'class': 'form-control'}}) }}
-                            </div>
+            <div class="container">
+                <div class="row py-4">
+                    <div class="col-sm-6">
+                        <div class="card card-body">
+                            <h5>Veuillez remplire le formulaire pour valider votre commande</h5>
+                            <hr>
+                            <div class="container">
+                                <!--form action=""-->
+                                {{ form_start(formulaire) }}
+                                <div class="form-group mb-3">
+                                    {{ form_row(formulaire.prenom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Souleymane'}}) }}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form_row(formulaire.nom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Ndiaye'}}) }}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form_row(formulaire.telephone , {attr: {'class': 'form-control', 'placeholder': 'Exemple: 781352588'}}) }}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form_row(formulaire.email , {attr: {'class': 'form-control', 'placeholder': 'Exemple: ndaiayesouley@gmail.com'}}) }}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form_row(formulaire.Adresse , {attr: {'class': 'form-control', 'placeholder': 'Exemple: saint-louis pikine rue tall'}}) }}
+                                    <!--input class="form-control" type="text" placeholder="Ville"-->
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form_row(formulaire.date , {attr: {'class': 'form-control'}}) }}
+                                </div>
                             <!-- p><strong>Mode de Payement</strong></p >
                             <div class="form-group mb-3">
                                 {#  form_row(formulaire.ModePayement , {attr: {'class': 'form-control'}}) }} #}
@@ -62,10 +62,43 @@
                                 <!-- a class="btn btn-outline-primary" href="achat.html">Valider</a -->
                             </div>
                             {{ form_end(formulaire) }}
-                        <!--/form-->
+                            <!--/form-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="card card-body table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Designation</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for nombre in 1..app.session.get('nombreType') %}
+                                    {% set produi = "produit" ~ nombre %}
+                                        <tr>
+                                            <td>
+                                                <img src="{{asset('img/img.jpg')}}" class="img-fluid" width="50" alt="">
+                                            </td>
+                                            <td>{{ app.session.get(produi)[1] }} frs CFA</td>
+                                            <td>{{ app.session.get(produi)[3] }}</td>
+                                            <td>{{ app.session.get(produi)[2] }} frs CFA</td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td colspan="3">Total</td>
+                                        <td>{{ app.session.get('valeurPanier') }} frs CFA</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}

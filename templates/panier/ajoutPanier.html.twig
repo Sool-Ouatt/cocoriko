@@ -2,61 +2,58 @@
 
 {% block title %}Panier{% endblock %}
 
-{% block body %}
-    <!-- single slide -->
-    <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
-        <div class="container py-5 text-center card-glass text-white">
-            <h1 class="display-5 fw-bold animated bounceInRight ">Optez Pour un service rapide à bon prix</h1>
+    {% block body %}
+        <!-- single slide -->
+        <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
+            <div class="container py-5 text-center card-glass text-white">
+                <h1 class="display-5 fw-bold animated bounceInRight ">Optez Pour un service rapide à bon prix</h1>
+            </div>
         </div>
-    </div>
-    <!-- end single slide -->
-    <main class="container-fluid">
-
-        <div class="container">
-            <div class="row py-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <img src= "{{asset('img/img.jpg')}}" alt="">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card card-body mt-3">
-                        <p><strong>Prix : </strong><input type="number" id="prix" name="prix" value={{ produit.prixVente }} disabled/> Fcfa </p>
-                        <p><strong>Réduction :</strong> {{ produit.tauxReduction ~ "%" }} </p>
-                        <p><strong>Poids :</strong> {{ produit.poids ~ " kg" }} </p>
-                        <p><strong>Description :</strong> {{ produit.designation}} </p>
-                    </div>
-                    <div class="card card-body mt-3">
-                        {# affichage du message flash #}
-                        {% for message in app.flashes('msProduitExiste') %}
-                            <div class="flash-notice">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="card card-body mt-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{ form_start(formulaire) }}
-                                <div class="form-group">
-                                    {{ form_row(formulaire.quantite, {attr: {'class': 'form-control'}}) }}
-                                    <!--input type="number" id="nombre" name="nombre" class="form-control" min=0 max=100 placeholder="Quantité"/-->
-                                </div>
-                            </div>
-                            <div class="col-md-6"align="right">
-                                     {{ form_row(formulaire.Suivant, {attr: {'class': 'btn btn-primary'}}) }}
-                                <!--a class="btn btn-outline-primary" href="{#'/achat/' ~ produit.id #}">Payer</a-->
-                            </div>
-                            {{ form_end(formulaire) }}
+        <div class="container-fluid">
+            <div class="col-lg-10 mx-auto">
+                <div class="row py-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <img src= "{{asset('img/img.jpg')}}" alt="">
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card card-body mt-3">
+                            <p><strong>Prix :</strong> {{ produit.prixVente ~ " Fcfa" }} </p>
+                            <p><strong>Réduction :</strong> {{ produit.tauxReduction ~ "%" }} </p>
+                            <p><strong>Poids :</strong> {{ produit.poids ~ " kg" }} </p>
+                            <p><strong>Description :</strong> {{ produit.designation}} </p>
+                            {# affichage du message flash #}
+                            {% for message in app.flashes('msProduitExiste') %}
+                                <div class="flash-notice bg-info p-2 rounded">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="card card-body mt-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form_start(formulaire) }}
+                                    <div class="form-group">
+                                        {{ form_row(formulaire.quantite, {attr: {'class': 'form-control', 'placeholder': 'Quantité'}}) }}
+                                        <!--input type="number" id="nombre" name="nombre" class="form-control" min=0 max=100 placeholder="Quantité"/-->
+                                    </div>
+                                </div>
+                                <div class="col-md-6"align="right">
+                                   {{ form_row(formulaire.Suivant, {attr: {'class': 'btn btn-outline-primary'}}) }}
+                                   <!--a class="btn btn-outline-primary" href="{#'/achat/' ~ produit.id #}">Payer</a-->
+                               </div>
+                               {{ form_end(formulaire) }}
+                           </div>
                         <!--hr>
                         <p><strong>Total: </strong><input type="text" id="total" name="total" disabled/></p-->
-                    </div>
-                    <div class="card card-body bg-color1 border-color2 mt-3">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto ad ullam in dolorem reiciendis obcaecati rerum deleniti labore nihil officiis, nulla sunt corrupti esse aspernatur, voluptas maiores provident ea ducimus!
+                        </div>
+                        <div class="card card-body bg-color1 border-color2 mt-3">
+                            <h5>Détails</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora incidunt sunt similique, nostrum. Nemo minima officiis praesentium nihil voluptates autem recusandae cupiditate doloribus voluptatibus repudiandae dolorum, aliquam fuga veniam nisi!</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <hr>
-{% endblock %}
+    {% endblock %}

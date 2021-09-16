@@ -19,20 +19,20 @@ class Contenu
 
     /**
      * @ORM\ManyToOne(targetEntity=Produit::class, inversedBy="contenus")
-     * @ORM\JoinColumn(name="idProduit", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="produit", referencedColumnName="id", nullable=false)
      */
-    private $idProduit;
+    private $produit;
 
     /**
      * @ORM\ManyToOne(targetEntity=Commande::class, inversedBy="contenus")
-     * @ORM\JoinColumn(name="idCommande", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="commande", referencedColumnName="id", nullable=false)
      */
-    private $idCommande;
+    private $commande;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $qunatite;
+    private $quantite;
 
     /**
      * @ORM\Column(type="datetime")
@@ -55,38 +55,38 @@ class Contenu
         return $this->id;
     }
 
-    public function getIdProduit(): ?Produit
+    public function getProduit(): ?Produit
     {
-        return $this->idProduit;
+        return $this->produit;
     }
 
-    public function setIdProduit(?Produit $idProduit): self
+    public function setProduit(?Produit $produit): self
     {
-        $this->idProduit = $idProduit;
+        $this->produit = $produit;
 
         return $this;
     }
 
-    public function getIdCommande(): ?Commande
+    public function getCommande(): ?Commande
     {
-        return $this->idCommande;
+        return $this->commande;
     }
 
-    public function setIdCommande(?Commande $idCommande): self
+    public function setCommande(?Commande $commande): self
     {
-        $this->idCommande = $idCommande;
+        $this->commande = $commande;
 
         return $this;
     }
 
-    public function getQunatite(): ?int
+    public function getQuantite(): ?int
     {
-        return $this->qunatite;
+        return $this->quantite;
     }
 
-    public function setQunatite(int $qunatite): self
+    public function setQuantite(int $quantite): self
     {
-        $this->qunatite = $qunatite;
+        $this->quantite = $quantite;
 
         return $this;
     }

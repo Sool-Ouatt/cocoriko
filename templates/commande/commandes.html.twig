@@ -1,0 +1,26 @@
+<table class="table table-sm table-hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Dte. Commande</th>
+      <th>Tél. client</th>
+      <th>Stauts</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for commande in commandes %}
+      <tr>
+        <td>{{commande.id}}</td>
+        <td>{{commande.dateCommande | date('d/M/y')}}</td>
+        <td>{{commande.client.telephone}}</td>
+        <td>{{commande.status}}</td>
+        <td>
+          <a class="btn btn-sm btn-outline-secondary" href="{{path('bg_details', {'id': commande.id})}}"><i class="fas fa-eye"></i> Details</a>
+        {# <a href="{{path('edit_commande', {'id' : commande.id})}}" class=""><i class="fas fa-edit" style="color: #111"></i></a> |
+        <a href="{{path('delete_commande', {'id' : commande.id})}}" class="" onclick="return confirm('Voulez-vous vraiment supprimer?')"><i class="fas fa-trash" style="color: red"></i></a> #}
+      </td>
+    </tr>
+  {% endfor %}
+</tbody>
+</table>

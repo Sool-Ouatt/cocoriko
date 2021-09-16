@@ -6,6 +6,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
@@ -50,7 +51,15 @@ class Produit
     private $tauxReduction;
 
     /**
-     * @ORM\OneToMany(targetEntity=Contenu::class, mappedBy="idProduit", orphanRemoval=true)
+    *@ORM\Column(type="string")
+    *@Assert\File(
+    *   mimeTypes={"image/jpeg","image/gif","image/png"},
+    *   mimeTypesMessage = "Svp inserer une image valide (png,jpg,jpeg)")
+    */
+    private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Contenu::class, mappedBy="produit", orphanRemoval=true)
      */
     private $contenus;
 
@@ -146,6 +155,19 @@ class Produit
         $this->tauxReduction = $tauxReduction;
 
         return $this;
+    }
+
+    /**
+     * @param UploadedFile|null $attachment
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
     }
 
     /**

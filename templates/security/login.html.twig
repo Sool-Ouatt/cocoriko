@@ -2,31 +2,39 @@
 
 {% block title %}Log in!{% endblock %}
 
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-    {# affichage du message flash #}
-    {% for message in app.flashes('msSucces') %}
-        <div class="flash-notice">
-            {{ message }}
+    {% block body %}
+        <!-- single slide -->
+        <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
+            <div class="container py-5 text-center card-glass text-white">
+                <h1 class="display-5 fw-bold animated bounceInRight ">Optez pour un service rapide à bon prix</h1>
+            </div>
         </div>
-    {% endfor %}
-    {% for message in app.flashes('msValide') %}
-        <div class="flash-notice">
-            {{ message }}
-        </div>
-    {% endfor %}
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        <div class="col-lg-4 mx-auto py-5">
+            <div class="card card-body shadow">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                    {# affichage du message flash #}
+                    {% for message in app.flashes('msSucces') %}
+                        <div class="flash-notice">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('msValide') %}
+                        <div class="flash-notice">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+                    <label for="inputUsername">Username</label>
+                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control mb-4" autocomplete="username" required autofocus>
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control mb-4" autocomplete="current-password" required>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+                    <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                    >
 
     {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -37,10 +45,13 @@
                 <input type="checkbox" name="_remember_me"> Remember me
             </label>
         </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+        #}
+        <div align="center">
+            <button class="btn btn-sm btn-outline-primary" type="submit">
+                <i class="fas fa-sign-in-alt"></i> Connexion
+            </button>
+        </div>
+    </form>
+</div>
+</div>
 {% endblock %}

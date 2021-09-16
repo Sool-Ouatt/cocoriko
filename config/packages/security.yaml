@@ -46,20 +46,43 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        admin:
+            pattern: ^/bg_admin
+            provider: app_user_provider
+            custom_authenticator: App\Security\AdminAuthenticator
+            form_login:
+                # The route name that the login form submits to
+                check_path: bg_app_login
+                login_path: bg_app_login
+            entry_point: App\Security\AdminAuthenticator
+            #rajout pour le formulaire d'authentification
+            logout:
+                path: app_logout
+            #rajout......................
+            login_throttling:
+                limiter: app.login_rate_limiter
+
         main:
-            lazy: true
-#rajout pour le formulaire d'authentification
+            # lazy: true
+            pattern: ^/
+            provider: app_user_provider
+            #rajout pour le formulaire d'authentification
             custom_authenticator: App\Security\CocorikoConnexionFormAuthenticator
+            form_login:
+                # The route name that the login form submits to
+                check_path: app_login
+                login_path: app_login
+            entry_point: App\Security\CocorikoConnexionFormAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
                 target: app_login
-# fin rajout pour le formulaire d'authentification
-            provider: app_user_provider
-#rajout......................
+            # fin rajout pour le formulaire d'authentification
+            #rajout......................
             login_throttling:
                 limiter: app.login_rate_limiter
-#fin....rajout......................
+            #fin....rajout......................
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -70,5 +93,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/bg_admin/compte, roles: [ROLE_ADMINISTRATEUR] }
         # - { path: ^/profile, roles: ROLE_USER }

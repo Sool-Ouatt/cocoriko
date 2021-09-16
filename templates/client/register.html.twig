@@ -2,77 +2,65 @@
 
 {% block title %}Creation de compte{% endblock %}
 
-{% block body %}
+    {% block body %}
 
-<!-- single slide -->
-<div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
-    <div class="container py-5 text-center card-glass text-white">
-        <h1 class="display-5 fw-bold animated bounceInRight ">Optez pour un service rapide à bon prix</h1>
-    </div>
-</div>
-<!-- end single slide -->
-<main class="container-fluid">
-    <!-- products -->
-
-    <div class="container">
-        <div class="row py-4">
-            <div class="col-md-6">
-                <div class="card card-body">
-                    <h4>Formulaire de création de compte d'entreprise </h4>
-                    {# affichage du message flash #}
-                    {% for message in app.flashes('msError') %}
-                        <div class="flash-notice">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                    <hr>
-                    <div class="container">
-                        <!--form action=""-->
-                        {{ form_start(formulaireInscript) }}
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.idEntreprise , {attr: {'class': 'form-control', 'placeholder': 'Exemple: BayGuinar'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.telephoneEntreprise , {attr: {'class': 'form-control', 'placeholder': 'Exemple: 771352538'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.ville , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Saint-Louis'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.quartier , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Pikine'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.rue , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Tall'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.porte , {attr: {'class': 'form-control', 'placeholder': 'Exemple: 378'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.nom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Ndiaye'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.prenom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Abdoulaye'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.telephoneResponsable , {attr: {'class': 'form-control', 'placeholder': 'Exemple: 781352588'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.email , {attr: {'class': 'form-control', 'placeholder': 'Exemple: bay.guinar@bay.sn'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.username , {attr: {'class': 'form-control', 'placeholder': 'Exemple: BayGui'}}) }}
-                        </div>
-                        <div class="form-group mb-3">
-                            {{ form_row(formulaireInscript.motDePasse , {attr: {'class': 'form-control'}}) }}
-                        </div>
-                        <div align="right">
-                            {{ form_row(formulaireInscript.Enregistrer , {attr: {'class': 'btn btn-primary'}}) }}
-                        </div>
-                        {{ form_end(formulaireInscript) }}
-                        <!--/form-->
+        <!-- single slide -->
+        <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
+            <div class="container py-5 text-center card-glass text-white">
+                <h1 class="display-5 fw-bold animated bounceInRight ">Optez pour un service rapide à bon prix</h1>
+            </div>
+        </div>
+        <div class="col-lg-4 mx-auto py-5">
+            <div class="card card-body shadow">
+                <h4 align="center">Création de compte d'entreprise </h4>
+                {# affichage du message flash #}
+                {% for message in app.flashes('msError') %}
+                    <div class="flash-notice">
+                        {{ message }}
                     </div>
+                {% endfor %}
+                <hr>
+                <div class="container">
+                    <!--form action=""-->
+                    {{ form_start(formulaireInscript) }}
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.nom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Ndiaye'}}) }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.prenom , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Abdoulaye'}}) }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.telephoneResponsable , {attr: {'class': 'form-control', 'placeholder': 'Exemple: 781352588'}}) }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.email , {attr: {'class': 'form-control', 'placeholder': 'Exemple: bay.guinar@bay.sn'}}) }}
+                    </div>
+                    <hr>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.idEntreprise , {attr: {'class': 'form-control', 'placeholder': 'Exemple: BayGuinar'}}) }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.telephoneEntreprise , {attr: {'class': 'form-control', 'placeholder': 'Exemple: 771352538'}}) }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.adresse , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Pikine'}}) }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.ville , {attr: {'class': 'form-control', 'placeholder': 'Exemple: Saint-Louis'}}) }}
+                    </div>
+                    <hr>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.username , {attr: {'class': 'form-control', 'placeholder': 'Exemple: BayGui'}}) }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form_row(formulaireInscript.motDePasse , {attr: {'class': 'form-control'}}) }}
+                    </div>
+                    <div align="center">
+                        {{ form_row(formulaireInscript.Enregistrer , {attr: {'class': 'btn btn-sm btn-outline-primary'}}) }}
+                    </div>
+                    {{ form_end(formulaireInscript) }}
+                    <!--/form-->
                 </div>
             </div>
         </div>
-    </div>
     {% endblock %}
