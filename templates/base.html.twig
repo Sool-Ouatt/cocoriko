@@ -44,11 +44,11 @@
                     <li class="list-inline-item">
                         <a href="" target="_blank"><i class="fab fa-instagram contact-icon"></i></a>
                     </li>
-                    {# {% if is_granted('ROLE_CLIENT_ENTREPRISE') %}
+                    {% if app.user and is_granted('ROLE_CLIENT_ENTREPRISE') %}
                         <li class="list-inline-item">
                             <a class="" href="">Mon Espace</a>
                         </li>
-                    {% endif %} #}
+                    {% endif %}
                     {% if app.user %}
                         <li class="list-inline-item">
                             <a class="" href="{{path('app_logout')}}" style="color: #111; text-decoration: none"><i class="fas fa-power-off"></i> Déconnexion</a>
@@ -98,6 +98,50 @@
             </div>
         </div>
     </nav>
+    {% if app.request.pathinfo == "/" %}
+        <!-- slide -->
+        <div class="carousel" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active animated fadeIn">
+                    <img src="{{asset('img/bg_1.jpg')}}" alt="">
+                    <div class="container">
+                        <div class="carousel-caption text-start">
+                            <h1>Example headline.</h1>
+                            <p>for the first slide of the carousel.Some representative placeholder content </p>
+                            <!-- <p><a class="btn btn-outline-success" href="#">Sign up today</a></p> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item animated fadeIn">
+                    <img src="{{ asset('img/bg_3.jpg') }}" alt="">
+                    <div class="container">
+                        <div class="carousel-caption text-start">
+                            <h1>Another example headline.</h1>
+                            <p>S placeholder content forome representative the second slide of the carousel.</p>
+                            <!-- <p><a class="btn btn-outline-success" href="#">Learn more</a></p> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item animated fadeIn">
+                    <img src="{{ asset('img/bg_1.jpg') }}" alt="">
+                    <div class="container">
+                        <div class="carousel-caption text-start">
+                            <h1>One more for good measure.</h1>
+                            <p>Some representative placeholder content for the third slide of this carousel.</p>
+                            <!-- <p><a class="btn btn-outline-success" href="#">Browse gallery</a></p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- single slide -->
+        <div class="p-2 bg-light" style="background-image: url({{ asset('img/poulet.jpg') }}); background-size: cover">
+            <div class="container py-5 text-center card-glass text-white">
+                <h1 class="display-5 fw-bold animated bounceInRight ">Optez Pour un service rapide à bon prix</h1>
+            </div>
+        </div>
+    {% endif %}
     <!-- Header end -->
     <div class="bg-light">
         {% block body %}{% endblock %}

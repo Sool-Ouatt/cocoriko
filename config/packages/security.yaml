@@ -94,4 +94,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/bg_admin/compte, roles: [ROLE_ADMINISTRATEUR] }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/, roles: [IS_AUTHENTICATED_ANONYMOUSLY, ROLE_CLIENT_ENTREPRISE] }

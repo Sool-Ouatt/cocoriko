@@ -4,12 +4,6 @@
 
     {% block body %}
         <div class="container-fluid">
-            <!-- single slide -->
-            <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
-                <div class="container py-5 text-center card-glass text-white">
-                    <h1 class="display-5 fw-bold animated bounceInRight ">Optez Pour un service rapide à bon prix</h1>
-                </div>
-            </div>
             <div class="col-lg-7 mx-auto py-5">
                 <div class="card card-body ">
                     <div class="table-responsive">
@@ -28,14 +22,13 @@
                                     {% set produi = "produit" ~ nombre %}
                                         <tr>
                                             <td>
-                                                <img src="{{asset('img/img.jpg')}}" class="img-fluid" width="50" alt="">
+                                                <img src="{{asset('img//produits/' ~ app.session.get(produi)[4])}}" class="img-fluid" width="50" alt="">
                                             </td>
                                             <td>{{ app.session.get(produi)[1] }}</td>
                                             <td>{{ app.session.get(produi)[3] }}</td>
                                             <td>{{ app.session.get(produi)[2] }} frs CFA</td>
                                             <td>
                                                 <div align="center">
-                                                    {# <a href="{{path('monPanier', {'id': app.session.get(produi)[0]})}}" class="btn btn-sm btn-outline-secondary" style="margin-right: 15px"><i class="fas fa-save" style="color: #111;"></i></a> #}
                                                     <a href="{{path('supprimerProduit', {'id': app.session.get(produi)[0]})}}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-trash" style="color:red"></i></a>
                                                 </div>
                                             </td>
@@ -50,7 +43,7 @@
                             </table>
                         </div>
                         <div align="right">
-                            {# <a class="btn btn-sm btn-outline-primary" href="{{ is_granted('ROLE_CLIENT_ENTREPRISE') ? path('validationEntreprise') : path('validationClient') }}"><i class="fas fa-save"></i> Valider</a> #}
+                            <a class="btn btn-sm btn-outline-primary" href="{{ is_granted('ROLE_CLIENT_ENTREPRISE') ? path('validationEntreprise') : path('validationClient') }}"><i class="fas fa-check-circle"></i> Valider</a>
                         </div>
                     </div>
                 </div>

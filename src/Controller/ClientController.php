@@ -26,7 +26,7 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/client/register", name="Enregistrer")
+     * @Route("/client/inscription", name="Enregistrer")
      */
     public function register(Request $request,EntityManagerInterface $em,UserPasswordHasherInterface $passwordHasher,\Swift_Mailer $mailer): Response
     {

@@ -4,17 +4,12 @@
 
     {% block body %}
         <!-- single slide -->
-        <div class="p-2 bg-light" style="background-image: url({{ asset('img/background.jpg') }}); background-size: cover">
-            <div class="container py-5 text-center card-glass text-white">
-                <h1 class="display-5 fw-bold animated bounceInRight ">Optez Pour un service rapide à bon prix</h1>
-            </div>
-        </div>
         <div class="container-fluid">
             <div class="col-lg-10 mx-auto">
                 <div class="row py-4">
                     <div class="col-md-6">
                         <div class="card">
-                            <img src= "{{asset('img/img.jpg')}}" alt="">
+                            <img src="{{asset('img//produits/' ~ produit.image)}}" class="img-fluid" alt="">
                         </div>
                     </div>
                     <div class="col-md-6">

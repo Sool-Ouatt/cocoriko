@@ -50,7 +50,7 @@ class AdminAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('compte'));
+        return new RedirectResponse($this->urlGenerator->generate('bg_compte'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

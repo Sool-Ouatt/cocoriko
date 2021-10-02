@@ -94,7 +94,7 @@ class PanierController extends AbstractController
                         $valAncienne = $prod->getPrixVente() * $quantiteAncien;
                         $val -= $valAncienne;
                         $val += $valeur;
-                        $session->set($leProduit,[$prod->getId(),$prod->getDesignation(),$prod->getPrixVente(),$laQuantite]);
+                        $session->set($leProduit,[$prod->getId(),$prod->getDesignation(),$prod->getPrixVente(),$laQuantite,$prod->getImage()]);
                         $session->set("valeurPanier",$val);
                     }else{
                         $nb = $session->get("nombreType");
@@ -102,12 +102,12 @@ class PanierController extends AbstractController
                         $val += $valeur;
                         $nb += 1;
                         $session->set("nombreType", $nb);
-                        $session->set("produit".((string)$nb),[$prod->getId(),$prod->getDesignation(),$prod->getPrixVente(),$laQuantite]);
+                        $session->set("produit".((string)$nb),[$prod->getId(),$prod->getDesignation(),$prod->getPrixVente(),$laQuantite,$prod->getImage()]);
                         $session->set("valeurPanier",$val);
                     }
                 }else {
                     $session->set("nombreType", 1);
-                    $session->set("produit1",[$prod->getId(),$prod->getDesignation(),$prod->getPrixVente(),$laQuantite]);
+                    $session->set("produit1",[$prod->getId(),$prod->getDesignation(),$prod->getPrixVente(),$laQuantite,$prod->getImage()]);
                     $session->set("valeurPanier",$valeur);
                 }
 
@@ -274,10 +274,10 @@ class PanierController extends AbstractController
                 $clt = $respository->find($donnees->getTelephone());
                 if ($clt == null){
                     $em->persist($donnees);
-                    $commande->setTeleploneClient($donnees);
+                    $commande->setClient($donnees);
                 }else
                 {
-                    $commande->setTeleploneClient($clt);
+                    $commande->setClient($clt);
                 }
                 $commande->setId($idCommande);
                 $commande->setDateCommande($dateLivraison);
@@ -295,9 +295,9 @@ class PanierController extends AbstractController
                     $prodQuantite = $produit[3];
 
                     $contenu = new Contenu();
-                    $contenu->setIdCommande($commande);
-                    $contenu->setIdProduit($prod);
-                    $contenu->setQunatite((int)$prodQuantite);
+                    $contenu->setCommande($commande);
+                    $contenu->setProduit($prod);
+                    $contenu->setQuantite((int)$prodQuantite);
                     $em->persist($contenu);
                 }
 
@@ -323,7 +323,7 @@ class PanierController extends AbstractController
     public function mesCommandes($clt):Response
     {
         $respository = $this->getDoctrine()->getRepository(Commande::class);
-        $mesCommandes = $respository->findBy(["teleploneClient" => $clt]);
+        $mesCommandes = $respository->findBy(["client" => $clt]);
 
         return $this->render('panier/commandes.html.twig', [
             'client' => $clt->getTelephone(),
