@@ -192,18 +192,21 @@ class PanierController extends AbstractController
             $donnees = $formAchat->getData();
             $em->getConnection()->beginTransaction();
             try {
+
+                $listProduit = array();
+
                 $respository = $this->getDoctrine()->getRepository(Entreprise::class);
                 $entreprise = $respository->findOneBy(["telephoneEntreprise" => $user->getTelephoneClient()]);
 
                 $dateLivraison = $donnees['date'];
                 // on contruit l'adresse avec ville quatier....de l'entreprise
-                $adresse = $entreprise->getQuartier()." ".$entreprise->getVille();
+                $adresse = $entreprise->getAdresse()." ".$entreprise->getVille();
 
                 $client = $user->getTelephoneClient();
                 $commande = new Commande();
 
                 $commande->setId($idCommande);
-                $commande->setTeleploneClient($client);
+                $commande->setClient($client);
                 $commande->setDateCommande($dateLivraison);
                 $commande->setAdresseLivraison($adresse);
                 $commande->setValeur($valeurPanier);
@@ -218,14 +221,23 @@ class PanierController extends AbstractController
                     $prodQuantite = $produit[3];
 
                     $contenu = new Contenu();
-                    $contenu->setIdCommande($commande);
-                    $contenu->setIdProduit($prod);
-                    $contenu->setQunatite((int)$prodQuantite);
+                    $contenu->setCommande($commande);
+                    $contenu->setProduit($prod);
+                    $contenu->setQuantite((int)$prodQuantite);
+
+                    array_push($listProduit, $produit);
+
                     $em->persist($contenu);
                 }
                 $em->flush();
                 $em->getConnection()->commit();
-                return $this->redirectToRoute('mesCommande',array('id'=>$client->getTelephone()));
+                //return $this->redirectToRoute('mesCommande',array('id'=>$client->getTelephone()));
+                $session->clear();
+                return $this->render('commande/maCommande.html.twig',[
+                    'lesProduit' => $listProduit,
+                    'valeurPanier'=> $valeurPanier,
+                    'message' => 'Votre commande a été valider avec succès, un agent vous contactera bientôt, Merci'
+                ]);
 
             }catch (Exception $e) {
                 $em->getConnection()->rollBack();
@@ -263,6 +275,8 @@ class PanierController extends AbstractController
             $em->getConnection()->beginTransaction();
             try {
 
+                $listProduit = array();
+
               //  $modePayement = $donnees['ModePayement'];
                 $dateLivraison = $formAchat->get('date')->getData();
                 $adresse = $formAchat->get('Adresse')->getData();
@@ -298,13 +312,24 @@ class PanierController extends AbstractController
                     $contenu->setCommande($commande);
                     $contenu->setProduit($prod);
                     $contenu->setQuantite((int)$prodQuantite);
+
+                    array_push($listProduit, $produit);
+
                     $em->persist($contenu);
                 }
 
                 $em->flush();
                 $em->getConnection()->commit();
 
-                return $this->redirectToRoute('mesCommande',array('id'=>$donnees->getTelephone()));
+               // return $this->redirectToRoute('mesCommande',array('id'=>$donnees->getTelephone()));
+               $session->clear();
+
+               return $this->render('commande/maCommande.html.twig',[
+                'lesProduit' => $listProduit,
+                'valeurPanier'=> $valeurPanier,
+                'message' => 'Votre commande a été valider avec succès, un agent vous contacterai bientôt, Merci'
+            ]);
+
             }catch (Exception $e) {
                 $em->getConnection()->rollBack();
                 throw $e;
